@@ -8,13 +8,14 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 
 @Entity
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class LivePattern {
+public class LiveRow {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -22,7 +23,9 @@ public class LivePattern {
     private int rowNumber;
     private String rowDescription;
     private Boolean isTitleRow;
-
-    @OneToOne(mappedBy = "livePattern")
+    private Boolean isInfoRow;
+    @ManyToOne
     private Pattern pattern;
+    @OneToOne(mappedBy = "liveRow")
+    private CrossedRow crossedRow;
 }

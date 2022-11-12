@@ -15,13 +15,13 @@ import java.util.Set;
 @Data
 @NoArgsConstructor
 @AllArgsConstructor
-public class Craft {
+public class Currency {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
 
-    @OneToMany(mappedBy = "craft")
+    @OneToMany(mappedBy = "currency")
     Set<Pattern> patterns;
 }

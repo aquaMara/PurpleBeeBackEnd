@@ -11,7 +11,9 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.List;
 
 @Entity
 @Data @NoArgsConstructor @AllArgsConstructor
@@ -20,22 +22,33 @@ public class Pattern {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    @Enumerated(EnumType.STRING)
+    private String name;
+    private String littleDescription;
+    @ManyToOne
     private Craft craft;
     @ManyToOne
-    private Category category;    // Accessories, Clothing, Home, Pet, Toys
-    private String title;
-    private String body;
-    private String imageDescription; // size, materials from the photo
-    private String language;
+    private Category category;
+    @ManyToOne
+    private Language language;
     @Enumerated(EnumType.STRING)
     private DifficultyLevel difficultyLevel;
-    private String price;
-    // private String currency;
-
-    // live pattern
-    @OneToOne
-    private LivePattern livePattern;
+    private Double price;
+    private Double avgRate;
+    private String imagePath;
+    private String pdfPath;
+    private String abbreviations;
+    @ManyToOne
+    private Currency currency;
+    @ManyToOne
+    private AppUser creator;
+    @OneToMany(mappedBy = "pattern")
+    private List<LiveRow> liveRows;
+    @OneToMany(mappedBy = "pattern")
+    private List<Rate> rates;
+    @OneToMany(mappedBy = "pattern")
+    private List<Comment> comments;
+    @OneToMany(mappedBy = "pattern")
+    private List<Payment> payments;
 
     // + pdf
     // from drive

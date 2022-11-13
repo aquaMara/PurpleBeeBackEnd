@@ -15,12 +15,14 @@ import org.springframework.stereotype.Service;
 import org.springframework.ui.freemarker.FreeMarkerTemplateUtils;
 
 import javax.mail.internet.MimeMessage;
+import javax.transaction.Transactional;
 import java.io.IOException;
 import java.util.HashMap;
 import java.util.Map;
 
 @Service
 @RequiredArgsConstructor
+@Transactional
 public class EmailServiceImpl implements EmailService {
 
     private final JavaMailSender mailSender;

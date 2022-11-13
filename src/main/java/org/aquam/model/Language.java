@@ -21,7 +21,8 @@ public class Language {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
-
     @OneToMany(mappedBy = "language")
     List<Pattern> patterns;
+    @OneToMany(mappedBy = "language")
+    List<AppUserSettings> settings;
 }

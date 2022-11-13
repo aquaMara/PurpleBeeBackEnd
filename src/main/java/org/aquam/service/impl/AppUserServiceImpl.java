@@ -15,6 +15,7 @@ import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
 import javax.validation.Valid;
+import java.util.Optional;
 import java.util.Set;
 
 @Service
@@ -28,6 +29,10 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         return userRepository.findByUsername(username).orElseThrow(
                 () -> new UsernameNotFoundException(String.format("Username: %d not found", username)));
+    }
+
+    public Optional<AppUser> findByUsername(String username) {
+        return userRepository.findByUsername(username);
     }
 
     public AppUser save(AppUser user) {

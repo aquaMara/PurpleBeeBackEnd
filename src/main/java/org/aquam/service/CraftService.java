@@ -1,13 +1,16 @@
 package org.aquam.service;
 
 import org.aquam.model.Craft;
+import org.aquam.model.dto.CraftDto;
 
 import java.util.List;
 
 public interface CraftService {
 
-    Craft findByName(String name);
+    CraftDto findByName(String name);
     Boolean exists(String name);
-    List<Craft> readAll();
-    Craft create(Craft craft);
+    List<CraftDto> readAll();
+    CraftDto create(Craft craft);
+    CraftDto mapToDto(Craft craft);
+    Craft mapFromDto(CraftDto craftDto);
 }

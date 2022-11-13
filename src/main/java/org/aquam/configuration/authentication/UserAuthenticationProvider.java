@@ -1,6 +1,8 @@
 package org.aquam.configuration.authentication;
 
 import lombok.RequiredArgsConstructor;
+import org.aquam.exception.RegistrationNotApprovedException;
+import org.aquam.model.AppUser;
 import org.aquam.service.impl.AppUserServiceImpl;
 import org.springframework.security.authentication.AuthenticationProvider;
 import org.springframework.security.authentication.BadCredentialsException;
@@ -10,6 +12,9 @@ import org.springframework.security.core.AuthenticationException;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
+import javax.persistence.EntityNotFoundException;
+import java.util.Optional;
 
 @Service
 @RequiredArgsConstructor
@@ -22,13 +27,19 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
     public Authentication authenticate(Authentication authentication) throws AuthenticationException {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
-        UserDetails user = appUserService.loadUserByUsername(username);
-
-        if (!bCryptPasswordEncoder.matches(password, user.getPassword()))
-            throw new BadCredentialsException("Wrong username or password");
-
-        return new UsernamePasswordAuthenticationToken(
-                user, user.getPassword(), user.getAuthorities());
+        //UserDetails user = appUserService.loadUserByUsername(username);
+        Optional<AppUser> user = appUserService.findByUsername(username);
+        if (user.isEmpty())
+            throw new EntityNotFoundException("Username does not exist");
+        else {
+            AppUser appUser = user.get();
+            if (!appUser.getEnabled())
+                throw new RegistrationNotApprovedException("Registration not approved");
+            if (!bCryptPasswordEncoder.matches(password, appUser.getPassword()))
+                throw new BadCredentialsException("Wrong username or password");
+            return new UsernamePasswordAuthenticationToken(
+                    appUser, appUser.getPassword(), appUser.getAuthorities());
+        }
     }
 
     @Override

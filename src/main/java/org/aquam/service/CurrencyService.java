@@ -9,7 +9,7 @@ public interface CurrencyService {
 
     CurrencyDto findByName(String name);
     Boolean exists(String name);
-    List<CurrencyDto> readAll();
+    List<CurrencyDto> read();
     CurrencyDto create(Currency currency);
     CurrencyDto mapToDto(Currency currency);
     Currency mapFromDto(CurrencyDto currencyDto);

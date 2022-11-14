@@ -35,7 +35,7 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public List<CategoryDto> readAll() {
+    public List<CategoryDto> read() {
         List<Category> categories = categoryRepository.findAll();
         if (categories.isEmpty())
             throw new EntityNotFoundException("No categories");

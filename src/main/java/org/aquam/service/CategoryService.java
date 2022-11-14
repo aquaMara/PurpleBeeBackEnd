@@ -9,7 +9,7 @@ public interface CategoryService {
 
     CategoryDto findByName(String name);
     Boolean exists(String name);
-    List<CategoryDto> readAll();
+    List<CategoryDto> read();
     CategoryDto create(Category category);
     CategoryDto mapToDto(Category category);
     Category mapFromDto(CategoryDto categoryDto);

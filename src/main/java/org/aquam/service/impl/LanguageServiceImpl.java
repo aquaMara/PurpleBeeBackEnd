@@ -35,7 +35,7 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
-    public List<LanguageDto> readAll() {
+    public List<LanguageDto> read() {
         List<Language> languages = languageRepository.findAll();
         if (languages.isEmpty())
             throw new EntityExistsException("No languages");

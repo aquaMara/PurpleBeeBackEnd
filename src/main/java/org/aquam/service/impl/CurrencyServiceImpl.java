@@ -35,7 +35,7 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
-    public List<CurrencyDto> readAll() {
+    public List<CurrencyDto> read() {
         List<Currency> currencies = currencyRepository.findAll();
         if (currencies.isEmpty())
             throw new EntityNotFoundException("No currency");

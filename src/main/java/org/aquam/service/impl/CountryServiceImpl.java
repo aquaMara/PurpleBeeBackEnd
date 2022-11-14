@@ -19,7 +19,7 @@ import java.util.stream.Collectors;
 @RequiredArgsConstructor
 public class CountryServiceImpl implements CountryService {
 
-    private CountryRepository countryRepository;
+    private final CountryRepository countryRepository;
     private final ModelMapper modelMapper;
 
     @Override
@@ -35,7 +35,7 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
-    public List<CountryDto> readAll() {
+    public List<CountryDto> read() {
         List<Country> countries = countryRepository.findAll();
         if (countries.isEmpty())
             throw new EntityNotFoundException("No countries");

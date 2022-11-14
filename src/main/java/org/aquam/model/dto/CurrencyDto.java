@@ -5,6 +5,6 @@ import lombok.Data;
 @Data
 public class CurrencyDto {
 
-    private final Long id;
-    private final String name;
+    private Long id;
+    private String name;
 }

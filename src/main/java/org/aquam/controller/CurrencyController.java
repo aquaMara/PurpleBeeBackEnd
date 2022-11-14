@@ -1,9 +1,9 @@
 package org.aquam.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.aquam.model.Craft;
-import org.aquam.model.dto.CraftDto;
-import org.aquam.service.CraftService;
+import org.aquam.model.Currency;
+import org.aquam.model.dto.CurrencyDto;
+import org.aquam.service.CurrencyService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/craft")
+@RequestMapping("/currency")
 @RequiredArgsConstructor
-public class CraftController {
+public class CurrencyController {
 
-    private final CraftService craftService;
+    private final CurrencyService currencyService;
 
     @GetMapping
-    public ResponseEntity<List<CraftDto>> get() {
-        return new ResponseEntity<>(craftService.read(), HttpStatus.OK);
+    public ResponseEntity<List<CurrencyDto>> get() {
+        return new ResponseEntity<>(currencyService.read(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CraftDto> create(Craft craft) {
-        return new ResponseEntity<>(craftService.create(craft), HttpStatus.CREATED);
+    public ResponseEntity<CurrencyDto> create(@RequestBody Currency currency) {
+        return new ResponseEntity<>(currencyService.create(currency), HttpStatus.CREATED);
     }
 }

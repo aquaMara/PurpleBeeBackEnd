@@ -9,7 +9,7 @@ public interface CountryService {
 
     CountryDto findByName(String name);
     Boolean exists(String name);
-    List<CountryDto> readAll();
+    List<CountryDto> read();
     CountryDto create(Country country);
     CountryDto mapToDto(Country country);
     Country mapFromDto(CountryDto countryDto);

@@ -9,7 +9,7 @@ public interface LanguageService {
 
     LanguageDto findByName(String name);
     Boolean exists(String name);
-    List<LanguageDto> readAll();
+    List<LanguageDto> read();
     LanguageDto create(Language language);
     LanguageDto mapToDto(Language language);
     Language mapFromDto(LanguageDto languageDto);

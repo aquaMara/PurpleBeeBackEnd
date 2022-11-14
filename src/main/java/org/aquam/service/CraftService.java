@@ -9,7 +9,7 @@ public interface CraftService {
 
     CraftDto findByName(String name);
     Boolean exists(String name);
-    List<CraftDto> readAll();
+    List<CraftDto> read();
     CraftDto create(Craft craft);
     CraftDto mapToDto(Craft craft);
     Craft mapFromDto(CraftDto craftDto);

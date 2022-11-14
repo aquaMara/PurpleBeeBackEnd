@@ -1,9 +1,9 @@
 package org.aquam.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.aquam.model.Craft;
-import org.aquam.model.dto.CraftDto;
-import org.aquam.service.CraftService;
+import org.aquam.model.Language;
+import org.aquam.model.dto.LanguageDto;
+import org.aquam.service.LanguageService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/craft")
+@RequestMapping("/language")
 @RequiredArgsConstructor
-public class CraftController {
+public class LanguageController {
 
-    private final CraftService craftService;
+    private final LanguageService languageService;
 
     @GetMapping
-    public ResponseEntity<List<CraftDto>> get() {
-        return new ResponseEntity<>(craftService.read(), HttpStatus.OK);
+    public ResponseEntity<List<LanguageDto>> get() {
+        return new ResponseEntity<>(languageService.read(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CraftDto> create(Craft craft) {
-        return new ResponseEntity<>(craftService.create(craft), HttpStatus.CREATED);
+    public ResponseEntity<LanguageDto> create(@RequestBody Language language) {
+        return new ResponseEntity<>(languageService.create(language), HttpStatus.CREATED);
     }
 }

@@ -36,7 +36,7 @@ public class CraftServiceImpl implements CraftService {
     }
 
     @Override
-    public List<CraftDto> readAll() {
+    public List<CraftDto> read() {
         List<Craft> crafts = craftRepository.findAll();
         if (crafts.isEmpty())
             throw new EntityNotFoundException("No crafts");

@@ -1,9 +1,9 @@
 package org.aquam.controller;
 
 import lombok.RequiredArgsConstructor;
-import org.aquam.model.Craft;
-import org.aquam.model.dto.CraftDto;
-import org.aquam.service.CraftService;
+import org.aquam.model.Country;
+import org.aquam.model.dto.CountryDto;
+import org.aquam.service.CountryService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -15,19 +15,19 @@ import org.springframework.web.bind.annotation.RestController;
 import java.util.List;
 
 @RestController
-@RequestMapping("/craft")
+@RequestMapping("/country")
 @RequiredArgsConstructor
-public class CraftController {
+public class CountryController {
 
-    private final CraftService craftService;
+    private final CountryService countryService;
 
     @GetMapping
-    public ResponseEntity<List<CraftDto>> get() {
-        return new ResponseEntity<>(craftService.read(), HttpStatus.OK);
+    public ResponseEntity<List<CountryDto>> get() {
+        return new ResponseEntity<>(countryService.read(), HttpStatus.OK);
     }
 
     @PostMapping
-    public ResponseEntity<CraftDto> create(Craft craft) {
-        return new ResponseEntity<>(craftService.create(craft), HttpStatus.CREATED);
+    public ResponseEntity<CountryDto> create(@RequestBody Country country) {
+        return new ResponseEntity<>(countryService.create(country), HttpStatus.CREATED);
     }
 }

@@ -11,6 +11,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
 import javax.validation.ConstraintViolation;
 import javax.validation.ConstraintViolationException;
@@ -31,8 +32,21 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
                 () -> new UsernameNotFoundException(String.format("Username: %d not found", username)));
     }
 
-    public Optional<AppUser> findByUsername(String username) {
+    @Override
+    public Optional<AppUser> findUserByUsername(String username) {
         return userRepository.findByUsername(username);
+    }
+
+    @Override
+    public AppUser findByUsername(String username) {
+        return userRepository.findByUsername(username).orElseThrow(
+                () -> new EntityNotFoundException("User with username " + username + " not found"));
+    }
+
+    @Override
+    public AppUser findById(Long id) {
+        return userRepository.findById(id).orElseThrow(
+                () -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
     public AppUser save(AppUser user) {

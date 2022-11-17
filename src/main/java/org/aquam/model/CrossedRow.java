@@ -27,4 +27,11 @@ public class CrossedRow {
     private LiveRow liveRow;
     @ManyToMany(mappedBy = "crossedRows")
     private List<AppUser> appUserList;
+
+    @Override
+    public String toString() {
+        return "CrossedRow{" +
+                "id=" + id +
+                '}';
+    }
 }

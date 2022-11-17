@@ -21,4 +21,12 @@ public class Language {
     List<Pattern> patterns;
     @OneToMany(mappedBy = "language")
     List<AppUserSettings> settings;
+
+    @Override
+    public String toString() {
+        return "Language{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

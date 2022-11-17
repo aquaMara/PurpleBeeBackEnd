@@ -21,4 +21,12 @@ public class Currency {
 
     @OneToMany(mappedBy = "currency")
     Set<Pattern> patterns;
+
+    @Override
+    public String toString() {
+        return "Currency{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

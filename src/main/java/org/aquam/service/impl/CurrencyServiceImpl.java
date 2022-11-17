@@ -30,6 +30,12 @@ public class CurrencyServiceImpl implements CurrencyService {
     }
 
     @Override
+    public Currency findById(Long id) {
+        return currencyRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Currency with id " + id + " does not exist"));
+    }
+
+    @Override
     public Boolean exists(String name) {
         return currencyRepository.findByName(name).isPresent();
     }

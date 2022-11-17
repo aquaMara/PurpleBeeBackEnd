@@ -8,6 +8,7 @@ import java.util.List;
 public interface LanguageService {
 
     LanguageDto findByName(String name);
+    Language findById(Long id);
     Boolean exists(String name);
     List<LanguageDto> read();
     LanguageDto create(Language language);

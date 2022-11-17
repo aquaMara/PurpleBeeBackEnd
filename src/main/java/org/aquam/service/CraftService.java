@@ -8,6 +8,7 @@ import java.util.List;
 public interface CraftService {
 
     CraftDto findByName(String name);
+    Craft findById(Long id);
     Boolean exists(String name);
     List<CraftDto> read();
     CraftDto create(Craft craft);

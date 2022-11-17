@@ -100,6 +100,19 @@ public class AppUser implements UserDetails {
     }
 
     @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        AppUser appUser = (AppUser) o;
+        return Objects.equals(id, appUser.id) && appUserRole == appUser.appUserRole && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && Objects.equals(instagram, appUser.instagram) && Objects.equals(email, appUser.email) && Objects.equals(locked, appUser.locked) && Objects.equals(enabled, appUser.enabled);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, appUserRole, username, password, instagram, email, locked, enabled);
+    }
+
+    @Override
     public String toString() {
         return "AppUser{" +
                 "id=" + id +
@@ -111,18 +124,5 @@ public class AppUser implements UserDetails {
                 ", locked=" + locked +
                 ", enabled=" + enabled +
                 '}';
-    }
-
-    @Override
-    public boolean equals(Object o) {
-        if (this == o) return true;
-        if (o == null || getClass() != o.getClass()) return false;
-        AppUser appUser = (AppUser) o;
-        return Objects.equals(id, appUser.id) && appUserRole == appUser.appUserRole && Objects.equals(username, appUser.username) && Objects.equals(password, appUser.password) && Objects.equals(instagram, appUser.instagram) && Objects.equals(email, appUser.email) && Objects.equals(locked, appUser.locked) && Objects.equals(enabled, appUser.enabled);
-    }
-
-    @Override
-    public int hashCode() {
-        return Objects.hash(id, appUserRole, username, password, instagram, email, locked, enabled);
     }
 }

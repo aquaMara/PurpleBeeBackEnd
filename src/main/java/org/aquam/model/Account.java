@@ -23,4 +23,13 @@ public class Account {
     private Double sumAvailable;
     @OneToOne(mappedBy = "account")
     private AppUser user;
+
+    @Override
+    public String toString() {
+        return "Account{" +
+                "id=" + id +
+                ", sumTotal=" + sumTotal +
+                ", sumAvailable=" + sumAvailable +
+                '}';
+    }
 }

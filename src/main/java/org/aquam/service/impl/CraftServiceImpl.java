@@ -31,6 +31,12 @@ public class CraftServiceImpl implements CraftService {
     }
 
     @Override
+    public Craft findById(Long id) {
+        return craftRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Craft with id " + id + " does not exist"));
+    }
+
+    @Override
     public Boolean exists(String name) {
         return craftRepository.findByName(name).isPresent();
     }

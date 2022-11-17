@@ -24,4 +24,12 @@ public class Rate {
     private AppUser appUser;
     @ManyToOne
     private Pattern pattern;
+
+    @Override
+    public String toString() {
+        return "Rate{" +
+                "id=" + id +
+                ", value=" + value +
+                '}';
+    }
 }

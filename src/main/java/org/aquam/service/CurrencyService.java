@@ -8,6 +8,7 @@ import java.util.List;
 public interface CurrencyService {
 
     CurrencyDto findByName(String name);
+    Currency findById(Long id);
     Boolean exists(String name);
     List<CurrencyDto> read();
     CurrencyDto create(Currency currency);

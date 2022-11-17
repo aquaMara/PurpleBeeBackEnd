@@ -26,4 +26,11 @@ public class AppUserSettings {
     private Country country;
     @ManyToOne
     private Language language;
+
+    @Override
+    public String toString() {
+        return "AppUserSettings{" +
+                "id=" + id +
+                '}';
+    }
 }

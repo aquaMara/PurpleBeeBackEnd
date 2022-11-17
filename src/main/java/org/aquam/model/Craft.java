@@ -20,4 +20,12 @@ public class Craft {
 
     @OneToMany(mappedBy = "craft")
     Set<Pattern> patterns;
+
+    @Override
+    public String toString() {
+        return "Craft{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

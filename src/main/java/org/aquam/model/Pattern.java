@@ -13,10 +13,12 @@ import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
-@Data @NoArgsConstructor @AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class Pattern {
 
     @Id
@@ -50,9 +52,33 @@ public class Pattern {
     @OneToMany(mappedBy = "pattern")
     private List<Payment> payments;
 
-    // + pdf
-    // from drive
-    // + image
-    private String imageDirectory;
+    public Pattern(String name, String littleDescription,
+                   DifficultyLevel difficultyLevel, Double price) {
+        this.name = name;
+        this.littleDescription = littleDescription;
+        this.difficultyLevel = difficultyLevel;
+        this.price = price;
+        this.avgRate = 0.0;
+        this.imagePath = "";
+        this.pdfPath = "";
+        this.abbreviations = "";
+        this.liveRows = new ArrayList<>();
+        this.rates = new ArrayList<>();
+        this.comments = new ArrayList<>();
+        this.payments = new ArrayList<>();
+    }
 
+    @Override
+    public String toString() {
+        return "Pattern{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                ", littleDescription='" + littleDescription + '\'' +
+                ", difficultyLevel=" + difficultyLevel +
+                ", avgRate=" + avgRate +
+                ", imagePath='" + imagePath + '\'' +
+                ", pdfPath='" + pdfPath + '\'' +
+                ", abbreviations='" + abbreviations + '\'' +
+                '}';
+    }
 }

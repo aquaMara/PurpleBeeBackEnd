@@ -19,4 +19,12 @@ public class Country {
     private String name;
     @OneToMany(mappedBy = "country")
     private List<AppUserSettings> settings;
+
+    @Override
+    public String toString() {
+        return "Country{" +
+                "id=" + id +
+                ", name='" + name + '\'' +
+                '}';
+    }
 }

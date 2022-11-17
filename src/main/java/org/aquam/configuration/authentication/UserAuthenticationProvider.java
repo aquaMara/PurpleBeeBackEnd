@@ -28,7 +28,7 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
         String username = authentication.getName();
         String password = authentication.getCredentials().toString();
         //UserDetails user = appUserService.loadUserByUsername(username);
-        Optional<AppUser> user = appUserService.findByUsername(username);
+        Optional<AppUser> user = appUserService.findUserByUsername(username);
         if (user.isEmpty())
             throw new EntityNotFoundException("Username does not exist");
         else {

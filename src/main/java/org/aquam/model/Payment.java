@@ -24,4 +24,18 @@ public class Payment {
     private AppUser appUser;
     @ManyToOne
     private Pattern pattern;
+
+    public Payment(Double payment, AppUser appUser, Pattern pattern) {
+        this.payment = payment;
+        this.appUser = appUser;
+        this.pattern = pattern;
+    }
+
+    @Override
+    public String toString() {
+        return "Payment{" +
+                "id=" + id +
+                ", payment=" + payment +
+                '}';
+    }
 }

@@ -24,4 +24,12 @@ public class Comment {
     private AppUser appUser;
     @ManyToOne
     private Pattern pattern;
+
+    @Override
+    public String toString() {
+        return "Comment{" +
+                "id=" + id +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

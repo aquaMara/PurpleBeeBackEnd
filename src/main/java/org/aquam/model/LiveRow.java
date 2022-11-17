@@ -21,11 +21,22 @@ public class LiveRow {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private int rowNumber;
-    private String rowDescription;
+    private String schema;
     private Boolean isTitleRow;
     private Boolean isInfoRow;
     @ManyToOne
     private Pattern pattern;
     @OneToOne(mappedBy = "liveRow")
     private CrossedRow crossedRow;
+
+    @Override
+    public String toString() {
+        return "LiveRow{" +
+                "id=" + id +
+                ", rowNumber=" + rowNumber +
+                ", schema='" + schema + '\'' +
+                ", isTitleRow=" + isTitleRow +
+                ", isInfoRow=" + isInfoRow +
+                '}';
+    }
 }

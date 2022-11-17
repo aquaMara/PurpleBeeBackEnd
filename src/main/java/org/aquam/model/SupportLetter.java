@@ -23,4 +23,13 @@ public class SupportLetter {
     private String body;
     @ManyToOne
     private AppUser appUser;
+
+    @Override
+    public String toString() {
+        return "SupportLetter{" +
+                "id=" + id +
+                ", title='" + title + '\'' +
+                ", body='" + body + '\'' +
+                '}';
+    }
 }

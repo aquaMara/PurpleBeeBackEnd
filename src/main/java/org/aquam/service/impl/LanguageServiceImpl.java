@@ -30,6 +30,12 @@ public class LanguageServiceImpl implements LanguageService {
     }
 
     @Override
+    public Language findById(Long id) {
+        return languageRepository.findById(id).orElseThrow(() ->
+                new EntityNotFoundException("Language with id "+ id + " does not exist"));
+    }
+
+    @Override
     public Boolean exists(String name) {
         return languageRepository.findByName(name).isPresent();
     }

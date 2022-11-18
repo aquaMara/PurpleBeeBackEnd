@@ -61,9 +61,27 @@ public class PatternServiceImpl implements PatternService {
     }
 
     @Override
+    public List<PatternDto> searchByName(String name) {
+        List<Pattern> patterns = patternRepository.findAll();
+        if (patterns.isEmpty())
+            throw new EntityNotFoundException("No patterns");
+        return patterns.stream()
+                .filter(s -> s.getName().contains(name))
+                .map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
     public PatternDto readOne(Long id) {
         Pattern pattern = findById(id);
         return mapToDto(pattern);
+    }
+
+    @Override
+    public List<PatternDto> readByIds(List<Long> idsOfPatterns) {
+        return idsOfPatterns.stream()
+                .map(this::readOne)
+                .collect(Collectors.toList());
     }
 
     @Override

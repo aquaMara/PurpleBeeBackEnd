@@ -12,7 +12,9 @@ public interface PatternService {
     Pattern findById(Long id);
     Boolean exists(Long id);
     List<PatternDto> read();
+    List<PatternDto> searchByName(String name);
     PatternDto readOne(Long id);
+    List<PatternDto> readByIds(List<Long> idsOfPatterns);
     PatternModel readPatternModel(Long id);
     Long create(PatternDto patternDto, String username);
     PatternDto mapToDto(Pattern pattern);

@@ -27,9 +27,9 @@ public class LiveRowServiceImpl implements LiveRowService {
     private final ModelMapper modelMapper;
 
     @Override
-    public List<LiveRowDto> read() {
-        // todo: find all live rows by pattern id
-        return null;
+    public List<LiveRow> readPatternLiveRows(Long patternId) {
+        Pattern pattern = patternService.findById(patternId);
+        return pattern.getLiveRows();
     }
 
     @Override

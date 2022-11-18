@@ -12,7 +12,7 @@ import java.util.List;
 public interface LiveRowService {
 
     List<LiveRowDto> create(List<LiveRowDto> liveRowsDto, Long patternId);
-    List<LiveRowDto> read();
+    List<LiveRow> readPatternLiveRows(Long patternId);
     LiveRowDto mapToDto(LiveRow liveRow);
     LiveRow mapFromDto(LiveRowDto liveRowDto);
 }

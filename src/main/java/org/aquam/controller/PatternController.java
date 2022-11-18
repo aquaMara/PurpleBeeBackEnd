@@ -25,31 +25,40 @@ import java.util.List;
 @RequestMapping("/pattern")
 @RequiredArgsConstructor
 public class PatternController {
-// @RequestParam(value = "data") MultipartFile file
-// @PreAuthorize("hasRole('ADMIN')")
 
     private final PatternService patternService;
 
+    // a user creates a pattern
     @PostMapping("/{username}")
     public ResponseEntity<Long> create(@PathVariable String username, @RequestBody PatternDto patternDto) {
         return new ResponseEntity<>(patternService.create(patternDto, username), HttpStatus.OK);
     }
 
-    // , @RequestBody ArrayList<LiveRow> liveRows
-    @PostMapping("/upload")
-    public ResponseEntity<String> addFile(@RequestParam(value = "data") MultipartFile file) throws IOException {
-        return new ResponseEntity<>("subjectService.addFile(subjectId, file)", HttpStatus.OK);  // 200
-    }
-
-    @GetMapping
+    // get all patterns
+    @GetMapping("/all")
     public ResponseEntity<List<PatternDto>> get() {
         return new ResponseEntity<>(patternService.read(), HttpStatus.OK);
     }
 
+    @GetMapping("/all/{name}")
+    public ResponseEntity<List<PatternDto>> getByName(@PathVariable("name") String name) {
+        return new ResponseEntity<>(patternService.searchByName(name), HttpStatus.OK);
+    }
+
+    // get one pattern by id
     @GetMapping("/{patternId}")
     public ResponseEntity<PatternModel> getOne(@PathVariable Long patternId) {
         return new ResponseEntity<>(patternService.readPatternModel(patternId), HttpStatus.OK);
     }
 
-
 }
+
+// @RequestParam(value = "data") MultipartFile file
+// @PreAuthorize("hasRole('ADMIN')")
+// , @RequestBody ArrayList<LiveRow> liveRows
+    /*
+    @PostMapping("/upload")
+    public ResponseEntity<String> addFile(@RequestParam(value = "data") MultipartFile file) throws IOException {
+        return new ResponseEntity<>("subjectService.addFile(subjectId, file)", HttpStatus.OK);  // 200
+    }
+     */

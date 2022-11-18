@@ -8,6 +8,7 @@ import java.util.List;
 public interface CountryService {
 
     CountryDto findByName(String name);
+    Country findById(Long id);
     Boolean exists(String name);
     List<CountryDto> read();
     CountryDto create(Country country);

@@ -54,8 +54,6 @@ public class AppUser implements UserDetails {
     private List<Comment> comments;
     @OneToMany(mappedBy = "appUser")    // patterns I bought from payment
     private List<Payment> payments;
-    @ManyToMany
-    private List<CrossedRow> crossedRows;
 
     public AppUser(String username, String password, String email) {
         this.username = username;

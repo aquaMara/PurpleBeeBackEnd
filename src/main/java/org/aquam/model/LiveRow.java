@@ -26,8 +26,6 @@ public class LiveRow {
     private Boolean isInfoRow;
     @ManyToOne
     private Pattern pattern;
-    @OneToOne(mappedBy = "liveRow")
-    private CrossedRow crossedRow;
 
     @Override
     public String toString() {

@@ -30,6 +30,12 @@ public class CountryServiceImpl implements CountryService {
     }
 
     @Override
+    public Country findById(Long id) {
+        return countryRepository.findById(id).orElseThrow(() ->
+                        new EntityNotFoundException("Country with id " + id + " does not exist"));
+    }
+
+    @Override
     public Boolean exists(String name) {
         return countryRepository.findByName(name).isPresent();
     }

@@ -2,10 +2,16 @@ package org.aquam.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.aquam.model.AppUser;
+import org.aquam.model.AppUserSettings;
+import org.aquam.model.Country;
+import org.aquam.model.Language;
 import org.aquam.model.dto.AppUserDto;
+import org.aquam.model.dto.AppUserModel;
 import org.aquam.model.request.RegistrationRequest;
 import org.aquam.repository.AppUserRepository;
 import org.aquam.service.AppUserService;
+import org.aquam.service.CountryService;
+import org.aquam.service.LanguageService;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -25,6 +31,8 @@ import java.util.Set;
 public class AppUserServiceImpl implements AppUserService, UserDetailsService {
 
     private final AppUserRepository userRepository;
+    private final CountryService countryService;
+    private final LanguageService languageService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -49,25 +57,32 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
                 () -> new EntityNotFoundException("User with id " + id + " not found"));
     }
 
-    public AppUser save(AppUser user) {
-        return userRepository.save(user);
+    @Override
+    public AppUserModel readCurrent(String username) {
+        AppUser current = findByUsername(username);
+        AppUserSettings appUserSettings = current.getAppUserSettings();
+        AppUserModel model = new AppUserModel(
+                username,
+                current.getEmail(),
+                current.getInstagram(),
+                current.getRegistrationDate()
+        );
+        return model;
     }
 
-    /*
-    public AppUserDto save(AppUser user) {
-        AppUser saved = userRepository.save(user);
-        AppUserDto savedDto = modelMapper.map(saved, AppUserDto.class);
-        return saved;
+    @Override
+    public Boolean setCountry(String username, Long countryId) {
+        AppUser current = findByUsername(username);
+        Country country = countryService.findById(countryId);
+        current.getAppUserSettings().setCountry(country);
+        return true;
     }
-     */
 
-    /*
-    public AppUser toUser(@Valid UserDTO userDTO) {
-        Set<ConstraintViolation<UserDTO>> validationExceptions = validator.validate(userDTO);
-        if (!validationExceptions.isEmpty())
-            throw new ConstraintViolationException(validationExceptions);
-        AppUser user = modelMapper.map(userDTO, AppUser.class);
-        return user;
+    @Override
+    public Boolean setLanguage(String username, Long languageId) {
+        AppUser current = findByUsername(username);
+        Language language = languageService.findById(languageId);
+        current.getAppUserSettings().setLanguage(language);
+        return true;
     }
-     */
 }

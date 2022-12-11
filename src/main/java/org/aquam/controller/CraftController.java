@@ -27,7 +27,7 @@ public class CraftController {
     }
 
     @PostMapping
-    public ResponseEntity<CraftDto> create(Craft craft) {
+    public ResponseEntity<CraftDto> create(@RequestBody Craft craft) {
         return new ResponseEntity<>(craftService.create(craft), HttpStatus.CREATED);
     }
 }

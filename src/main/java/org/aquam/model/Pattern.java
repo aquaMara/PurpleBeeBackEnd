@@ -15,6 +15,7 @@ import javax.persistence.OneToMany;
 import javax.persistence.OneToOne;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -35,7 +36,8 @@ public class Pattern {
     @Enumerated(EnumType.STRING)
     private DifficultyLevel difficultyLevel;
     private Double price;
-    private Double avgRate;
+    private Double sumRate;
+    private Integer numRate;
     private String imagePath;
     private String pdfPath;
     private String abbreviations;
@@ -58,7 +60,8 @@ public class Pattern {
         this.littleDescription = littleDescription;
         this.difficultyLevel = difficultyLevel;
         this.price = price;
-        this.avgRate = 0.0;
+        this.sumRate = 0.0;
+        this.numRate = 0;
         this.imagePath = "";
         this.pdfPath = "";
         this.abbreviations = "";
@@ -75,10 +78,23 @@ public class Pattern {
                 ", name='" + name + '\'' +
                 ", littleDescription='" + littleDescription + '\'' +
                 ", difficultyLevel=" + difficultyLevel +
-                ", avgRate=" + avgRate +
+                ", sumRate=" + sumRate +
                 ", imagePath='" + imagePath + '\'' +
                 ", pdfPath='" + pdfPath + '\'' +
                 ", abbreviations='" + abbreviations + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Pattern pattern = (Pattern) o;
+        return Objects.equals(name, pattern.name) && Objects.equals(littleDescription, pattern.littleDescription) && Objects.equals(craft, pattern.craft) && Objects.equals(category, pattern.category) && Objects.equals(language, pattern.language) && difficultyLevel == pattern.difficultyLevel && Objects.equals(price, pattern.price) && Objects.equals(currency, pattern.currency) && Objects.equals(creator, pattern.creator) && Objects.equals(liveRows, pattern.liveRows) && Objects.equals(rates, pattern.rates) && Objects.equals(comments, pattern.comments) && Objects.equals(payments, pattern.payments);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(name, littleDescription, craft, category, language, difficultyLevel, price, currency, creator, liveRows, rates, comments, payments);
     }
 }

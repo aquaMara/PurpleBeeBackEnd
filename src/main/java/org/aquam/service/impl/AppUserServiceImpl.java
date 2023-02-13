@@ -5,10 +5,13 @@ import org.aquam.model.AppUser;
 import org.aquam.model.AppUserSettings;
 import org.aquam.model.Country;
 import org.aquam.model.Language;
+import org.aquam.model.SupportLetter;
 import org.aquam.model.dto.AppUserDto;
 import org.aquam.model.dto.AppUserModel;
+import org.aquam.model.dto.SupportLetterDto;
 import org.aquam.model.request.RegistrationRequest;
 import org.aquam.repository.AppUserRepository;
+import org.aquam.repository.SupportLetterRepository;
 import org.aquam.service.AppUserService;
 import org.aquam.service.CountryService;
 import org.aquam.service.LanguageService;
@@ -33,6 +36,7 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     private final AppUserRepository userRepository;
     private final CountryService countryService;
     private final LanguageService languageService;
+    private final SupportLetterRepository supportLetterRepository;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -83,6 +87,16 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
         AppUser current = findByUsername(username);
         Language language = languageService.findById(languageId);
         current.getAppUserSettings().setLanguage(language);
+        return true;
+    }
+
+    @Override
+    public Boolean saveLetter(String username, SupportLetterDto supportLetterDto) {
+        AppUser user = findByUsername(username);
+        SupportLetter supportLetter = new SupportLetter();
+        supportLetter.setAppUser(user);
+        supportLetter.setBody(supportLetterDto.getBody());
+        SupportLetter save = supportLetterRepository.save(supportLetter);
         return true;
     }
 }

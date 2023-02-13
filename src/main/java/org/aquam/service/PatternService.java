@@ -2,6 +2,7 @@ package org.aquam.service;
 
 import org.aquam.model.Currency;
 import org.aquam.model.Pattern;
+import org.aquam.model.dto.CommentDto;
 import org.aquam.model.dto.PatternDto;
 import org.aquam.model.dto.PatternModel;
 
@@ -17,6 +18,9 @@ public interface PatternService {
     List<PatternDto> readByIds(List<Long> idsOfPatterns);
     PatternModel readPatternModel(Long id);
     Long create(PatternDto patternDto, String username);
+    Double setRate(Long patternId, Double value);
+    String setComment(Long patternId, CommentDto commentDto);
+    List<CommentDto> getComments(Long patternId);
     PatternDto mapToDto(Pattern pattern);
     Pattern mapFromDto(PatternDto patternDto);
 }

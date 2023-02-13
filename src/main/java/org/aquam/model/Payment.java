@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -37,5 +38,18 @@ public class Payment {
                 "id=" + id +
                 ", payment=" + payment +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Payment payment1 = (Payment) o;
+        return Objects.equals(payment, payment1.payment) && Objects.equals(appUser, payment1.appUser) && Objects.equals(pattern, payment1.pattern);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(payment, appUser, pattern);
     }
 }

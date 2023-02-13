@@ -1,6 +1,7 @@
 package org.aquam.model;
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Category {
 
     @Id

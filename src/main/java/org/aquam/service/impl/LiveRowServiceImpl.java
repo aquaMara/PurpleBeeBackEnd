@@ -35,7 +35,6 @@ public class LiveRowServiceImpl implements LiveRowService {
     @Override
     public List<LiveRowDto> create(List<LiveRowDto> liveRowsDto, Long patternId) {
         Pattern pattern = patternService.findById(patternId);
-        // todo: check if pattern already has live rows and delete or replace
         List<LiveRow> liveRows = liveRowsDto.stream()
                 .map(this::mapFromDto).collect(Collectors.toList());
         List <LiveRow> savedLiveRows = new ArrayList<>();

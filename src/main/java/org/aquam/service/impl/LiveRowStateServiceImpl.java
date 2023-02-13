@@ -29,24 +29,6 @@ public class LiveRowStateServiceImpl implements LiveRowStateService {
     private final AppUserService appUserService;
     private final LiveRowService liveRowService;
     private final ModelMapper modelMapper;
-/*
-for (LiveRow liveRow : liveRows) {
-            LiveRowModel livePatternRow = new LiveRowModel(
-                    liveRow.getId(),
-                    liveRow.getRowNumber(),
-                    liveRow.getSchema(),
-                    liveRow.getIsTitleRow(),
-                    liveRow.getIsInfoRow()
-            );
-        }
- */
-    /*
-
-        for (int i = 0; i < livePattern.size(); i++) {
-            Long liveRowId = livePattern.get(i).getLiveRowId();
-            livePattern.get(i).setIsCrossed(isCrossed(liveRowId, userId));
-        }
-     */
 
     @Override
     public List<LiveRowModel> readLivePattern(Long patternId, String username) {

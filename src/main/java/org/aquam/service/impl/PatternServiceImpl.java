@@ -2,10 +2,15 @@ package org.aquam.service.impl;
 
 import lombok.RequiredArgsConstructor;
 import org.aquam.model.Category;
+import org.aquam.model.Comment;
 import org.aquam.model.DifficultyLevel;
 import org.aquam.model.Pattern;
+import org.aquam.model.Rate;
+import org.aquam.model.dto.CommentDto;
 import org.aquam.model.dto.PatternDto;
 import org.aquam.model.dto.PatternModel;
+import org.aquam.model.dto.RateDto;
+import org.aquam.repository.CommentRepository;
 import org.aquam.repository.PatternRepository;
 import org.aquam.service.AppUserService;
 import org.aquam.service.CategoryService;
@@ -40,6 +45,8 @@ public class PatternServiceImpl implements PatternService {
     private final LanguageService languageService;
     private final CurrencyService currencyService;
 
+    private final CommentRepository commentRepository;
+
     @Override
     public Pattern findById(Long id) {
         return patternRepository.findById(id).orElseThrow(() ->
@@ -65,10 +72,17 @@ public class PatternServiceImpl implements PatternService {
         List<Pattern> patterns = patternRepository.findAll();
         if (patterns.isEmpty())
             throw new EntityNotFoundException("No patterns");
-        return patterns.stream()
+        boolean empty = patterns.stream()
                 .filter(s -> s.getName().contains(name))
-                .map(this::mapToDto)
-                .collect(Collectors.toList());
+                .toList().isEmpty();
+        if (!empty) {
+            return patterns.stream()
+                    .filter(s -> s.getName().contains(name))
+                    .map(this::mapToDto)
+                    .collect(Collectors.toList());
+        } else {
+            throw new EntityNotFoundException("No patterns");
+        }
     }
 
     @Override
@@ -93,7 +107,6 @@ public class PatternServiceImpl implements PatternService {
                 pattern.getLittleDescription(),
                 pattern.getPrice(),
                 pattern.getDifficultyLevel(),
-                pattern.getAvgRate(),
                 pattern.getImagePath(),
                 pattern.getPdfPath()
         );
@@ -102,12 +115,16 @@ public class PatternServiceImpl implements PatternService {
         patternModel.setCategoryName(pattern.getCategory().getName());
         patternModel.setLanguageName(pattern.getCategory().getName());
         patternModel.setCurrencyName(pattern.getCurrency().getName());
+        patternModel.setAvgRate(pattern.getNumRate() == 0 ? 0 : pattern.getSumRate() / pattern.getNumRate());
         return patternModel;
     }
-
+/*
+return patterns.stream()
+                    .map(this::mapToDto)
+                    .collect(Collectors.toList());
+ */
     @Override
     public Long create(PatternDto patternDto, String username) {
-        // todo: if user has pattern with the same name ?
         Pattern pattern = new Pattern(patternDto.getName(), patternDto.getLittleDescription(),
                 patternDto.getDifficultyLevel(), patternDto.getPrice());
         pattern.setCreator(appUserService.findByUsername(username));
@@ -117,6 +134,38 @@ public class PatternServiceImpl implements PatternService {
         pattern.setCurrency(currencyService.findById(patternDto.getCurrencyId()));
         Pattern saved = patternRepository.save(pattern);
         return saved.getId();
+    }
+
+    @Override
+    public Double setRate(Long patternId, Double value) {  // sum pattern rate
+        Pattern pattern = findById(patternId);
+        pattern.setSumRate(pattern.getSumRate() + value);
+        pattern.setNumRate(pattern.getNumRate() + 1);
+        double rate = pattern.getSumRate() / pattern.getNumRate();
+        patternRepository.save(pattern);
+        return rate;
+    }
+
+    @Override
+    public String setComment(Long patternId, CommentDto commentDto) {
+        Pattern pattern = findById(patternId);
+        Comment comment = new Comment(commentDto.getBody(), pattern);
+        Comment savedComment = commentRepository.save(comment);
+        pattern.getComments().add(savedComment);
+        Pattern save = patternRepository.save(pattern);
+        return "success";
+    }
+
+    @Override
+    public List<CommentDto> getComments(Long patternId) {
+        Pattern pattern = findById(patternId);
+        List<Comment> comments = pattern.getComments();
+        if (!comments.isEmpty()) {
+            return comments.stream()
+                    .map(comment -> modelMapper.map(comment, CommentDto.class))
+                    .collect(Collectors.toList());
+        }
+        return null;
     }
 
     @Override

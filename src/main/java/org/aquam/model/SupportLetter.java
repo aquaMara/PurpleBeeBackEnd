@@ -9,6 +9,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -31,5 +32,18 @@ public class SupportLetter {
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        SupportLetter that = (SupportLetter) o;
+        return Objects.equals(title, that.title) && Objects.equals(body, that.body) && Objects.equals(appUser, that.appUser);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(title, body, appUser);
     }
 }

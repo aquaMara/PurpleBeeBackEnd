@@ -40,8 +40,8 @@ public class PatternController {
         return new ResponseEntity<>(patternService.read(), HttpStatus.OK);
     }
 
-    @GetMapping("/all/{name}")
-    public ResponseEntity<List<PatternDto>> getByName(@PathVariable("name") String name) {
+    @GetMapping("/all/{search}")
+    public ResponseEntity<List<PatternDto>> getByName(@PathVariable("search") String name) {
         return new ResponseEntity<>(patternService.searchByName(name), HttpStatus.OK);
     }
 

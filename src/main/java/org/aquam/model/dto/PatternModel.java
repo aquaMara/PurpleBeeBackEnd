@@ -27,14 +27,13 @@ public class PatternModel {
     private String pdfPath;
 
     public PatternModel(Long id, String name, String littleDescription,
-                        Double price, DifficultyLevel difficultyLevel, Double avgRate,
+                        Double price, DifficultyLevel difficultyLevel,
                         String imagePath, String pdfPath) {
         this.id = id;
         this.name = name;
         this.littleDescription = littleDescription;
         this.price = price;
         this.difficultyLevel = difficultyLevel;
-        this.avgRate = avgRate;
         this.imagePath = imagePath;
         this.pdfPath = pdfPath;
     }

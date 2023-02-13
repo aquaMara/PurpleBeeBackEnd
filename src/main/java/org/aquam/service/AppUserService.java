@@ -2,6 +2,7 @@ package org.aquam.service;
 
 import org.aquam.model.AppUser;
 import org.aquam.model.dto.AppUserModel;
+import org.aquam.model.dto.SupportLetterDto;
 
 import java.util.Optional;
 
@@ -13,4 +14,5 @@ public interface AppUserService {
     AppUserModel readCurrent(String username);
     Boolean setCountry(String username, Long countryId);
     Boolean setLanguage(String username, Long languageId);
+    Boolean saveLetter(String username, SupportLetterDto supportLetterDto);
 }

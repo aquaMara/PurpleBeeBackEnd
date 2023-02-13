@@ -30,6 +30,7 @@ public class WebSecurityConfig {
         corsConfig.corsConfiguration(http);
         http.csrf().disable();
         http.authorizeRequests()
+                .antMatchers(HttpMethod.GET, "/nikita/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/signin/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/signup/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/signup/check/**").permitAll()

@@ -30,7 +30,7 @@ public class TokenValidatorFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         try {
             if (request.getRequestURI().equals("/signin") || request.getRequestURI().equals("/signup") || requestURI.startsWith("/signup/confirm/")
-            || request.getRequestURI().equals("/signup/check")) {
+            || request.getRequestURI().equals("/signup/check") || request.getRequestURI().equals("/nikita")) {
                 filterChain.doFilter(request, response);
             } else {
                 String token = getJwtTokenFromRequest(request);

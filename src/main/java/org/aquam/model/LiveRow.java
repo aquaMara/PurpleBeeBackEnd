@@ -10,6 +10,7 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
+import java.util.Objects;
 
 @Entity
 @Data
@@ -36,5 +37,18 @@ public class LiveRow {
                 ", isTitleRow=" + isTitleRow +
                 ", isInfoRow=" + isInfoRow +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        LiveRow liveRow = (LiveRow) o;
+        return rowNumber == liveRow.rowNumber && Objects.equals(schema, liveRow.schema) && Objects.equals(isTitleRow, liveRow.isTitleRow) && Objects.equals(isInfoRow, liveRow.isInfoRow) && Objects.equals(pattern, liveRow.pattern);
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(rowNumber, schema, isTitleRow, isInfoRow, pattern);
     }
 }

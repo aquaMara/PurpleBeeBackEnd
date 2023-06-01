@@ -1,11 +1,8 @@
 package org.aquam.service.impl;
 
 import lombok.RequiredArgsConstructor;
-import org.aquam.model.Category;
-import org.aquam.model.Comment;
-import org.aquam.model.DifficultyLevel;
-import org.aquam.model.Pattern;
-import org.aquam.model.Rate;
+import org.aquam.exception.FileUploadingException;
+import org.aquam.model.*;
 import org.aquam.model.dto.CommentDto;
 import org.aquam.model.dto.PatternDto;
 import org.aquam.model.dto.PatternModel;
@@ -63,15 +60,6 @@ public class PatternServiceImpl implements PatternService {
         List<Pattern> patterns = patternRepository.findAll()
                 .stream().filter(p -> !p.getLocked())
                 .toList();
-        if (patterns.isEmpty())
-            throw new EntityNotFoundException("No patterns");
-        return patterns.stream().map(this::mapToDto)
-                .collect(Collectors.toList());
-    }
-
-    @Override
-    public List<PatternDto> readAdmin() {
-        List<Pattern> patterns = patternRepository.findAll();
         if (patterns.isEmpty())
             throw new EntityNotFoundException("No patterns");
         return patterns.stream().map(this::mapToDto)

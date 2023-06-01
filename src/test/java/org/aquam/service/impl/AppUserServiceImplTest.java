@@ -62,14 +62,12 @@ class AppUserServiceImplTest {
 
     public SupportLetter createSupportLetter() {
         SupportLetter supportLetter = new SupportLetter();
-        supportLetter.setAppUser(createAppUser());
         supportLetter.setBody("I have a problem with uploading a pattern");
         return supportLetter;
     }
 
     public SupportLetterDto createSupportLetterDto() {
         SupportLetterDto supportLetterDto = new SupportLetterDto();
-        supportLetterDto.setUsername("aquam");
         supportLetterDto.setBody("I have a problem with uploading a pattern");
         return supportLetterDto;
     }

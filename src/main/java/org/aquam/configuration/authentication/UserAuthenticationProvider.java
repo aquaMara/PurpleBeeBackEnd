@@ -9,7 +9,6 @@ import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.AuthenticationException;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -35,6 +34,8 @@ public class UserAuthenticationProvider implements AuthenticationProvider {
             AppUser appUser = user.get();
             if (!appUser.getEnabled())
                 throw new RegistrationNotApprovedException("Registration not approved");
+            if (appUser.getLocked())
+                throw new BadCredentialsException("Your account is blocked, please contact support");
             if (!bCryptPasswordEncoder.matches(password, appUser.getPassword()))
                 throw new BadCredentialsException("Wrong username or password");
             return new UsernamePasswordAuthenticationToken(

@@ -36,4 +36,9 @@ public class PaymentController {
     public ResponseEntity<List<PatternDto>> get(@PathVariable String username) {
         return new ResponseEntity<>(paymentService.getPatternsByUsername(username), HttpStatus.OK);
     }
+
+    @GetMapping("/check/{patternId}")
+    public ResponseEntity<Boolean> checkIfAlreadyAcquired(@PathVariable Long patternId) {
+        return new ResponseEntity<>(paymentService.isPatternAcquired(patternId), HttpStatus.OK);
+    }
 }

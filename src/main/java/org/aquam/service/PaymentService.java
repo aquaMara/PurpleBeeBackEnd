@@ -10,4 +10,5 @@ public interface PaymentService {
 
     Boolean payForThePattern(PaymentDto paymentDto);
     List<PatternDto> getPatternsByUsername(String username);
+    Boolean isPatternAcquired(Long patternId);
 }

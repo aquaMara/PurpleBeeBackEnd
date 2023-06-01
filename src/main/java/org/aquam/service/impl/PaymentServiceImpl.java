@@ -11,11 +11,15 @@ import org.aquam.service.AppUserService;
 import org.aquam.service.PatternService;
 import org.aquam.service.PaymentService;
 import org.modelmapper.ModelMapper;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Service;
 
 import javax.transaction.Transactional;
+import java.security.Principal;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
+import org.springframework.security.core.Authentication;
 
 @Service
 @Transactional
@@ -46,5 +50,20 @@ public class PaymentServiceImpl implements PaymentService {
                 .collect(Collectors.toList());
         return patternService
                 .readByIds(patternIdsThatUserPurchased);
+    }
+
+    @Override
+    public Boolean isPatternAcquired(Long patternId) {
+        String username = getAuth().getName();
+        List<PatternDto> patternsByUsername = getPatternsByUsername(username);
+        List<PatternDto> list = patternsByUsername
+                .stream()
+                .filter(patternDto -> Objects.equals(patternDto.getId(), patternId))
+                .toList();
+        return !list.isEmpty();
+    }
+
+    public Authentication getAuth() {
+        return SecurityContextHolder.getContext().getAuthentication();
     }
 }

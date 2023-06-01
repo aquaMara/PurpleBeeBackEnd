@@ -10,11 +10,11 @@
 	</parent>
 	<groupId>org.aquam</groupId>
 	<artifactId>CrochetApp</artifactId>
-	<version>0.0.1-SNAPSHOT</version>
+	<version>6-1-2023v1-SNAPSHOT</version>
 	<name>CrochetApp</name>
 	<description>CrochetApp</description>
 	<properties>
-		<java.version>19</java.version>
+		<java.version>17</java.version>
 	</properties>
 	<dependencies>
 		<dependency>

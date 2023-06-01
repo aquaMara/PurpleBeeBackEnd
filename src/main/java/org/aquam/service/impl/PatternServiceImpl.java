@@ -9,7 +9,6 @@ import org.aquam.model.Rate;
 import org.aquam.model.dto.CommentDto;
 import org.aquam.model.dto.PatternDto;
 import org.aquam.model.dto.PatternModel;
-import org.aquam.model.dto.RateDto;
 import org.aquam.repository.CommentRepository;
 import org.aquam.repository.PatternRepository;
 import org.aquam.service.AppUserService;
@@ -20,14 +19,16 @@ import org.aquam.service.LanguageService;
 import org.aquam.service.PatternService;
 import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
+import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.EntityNotFoundException;
 import javax.transaction.Transactional;
-import javax.validation.ConstraintViolation;
-import javax.validation.Valid;
-import javax.xml.validation.Validator;
+import java.io.File;
+import java.io.IOException;
+import java.nio.file.Files;
+import java.time.LocalDateTime;
 import java.util.List;
-import java.util.Set;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 @Service
@@ -37,7 +38,6 @@ public class PatternServiceImpl implements PatternService {
 
     private final PatternRepository patternRepository;
     private final ModelMapper modelMapper;
-    //private final Validator validator;
 
     private final AppUserService appUserService;
     private final CraftService craftService;
@@ -60,6 +60,17 @@ public class PatternServiceImpl implements PatternService {
 
     @Override
     public List<PatternDto> read() {
+        List<Pattern> patterns = patternRepository.findAll()
+                .stream().filter(p -> !p.getLocked())
+                .toList();
+        if (patterns.isEmpty())
+            throw new EntityNotFoundException("No patterns");
+        return patterns.stream().map(this::mapToDto)
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<PatternDto> readAdmin() {
         List<Pattern> patterns = patternRepository.findAll();
         if (patterns.isEmpty())
             throw new EntityNotFoundException("No patterns");
@@ -73,16 +84,36 @@ public class PatternServiceImpl implements PatternService {
         if (patterns.isEmpty())
             throw new EntityNotFoundException("No patterns");
         boolean empty = patterns.stream()
-                .filter(s -> s.getName().contains(name))
+                .filter(s -> s.getName().toLowerCase().contains(name.toLowerCase())
+                        && s.getLocked().equals(false))
                 .toList().isEmpty();
         if (!empty) {
             return patterns.stream()
-                    .filter(s -> s.getName().contains(name))
+                    .filter(s -> s.getName().toLowerCase().contains(name.toLowerCase())
+                            && s.getLocked().equals(false))
                     .map(this::mapToDto)
                     .collect(Collectors.toList());
         } else {
             throw new EntityNotFoundException("No patterns");
         }
+    }
+
+    @Override
+    public List<PatternDto> filterByCraft(Long craftId) {
+        List<Pattern> patterns = patternRepository.findAll();
+        Craft craft = craftService.findById(craftId);
+        if (patterns.isEmpty())
+            throw new EntityNotFoundException("No patterns");
+        List<Pattern> collect = patterns.stream()
+                .filter(p -> p.getCraft().equals(craft)
+                        && p.getLocked().equals(false))
+                .toList();
+        if (collect.isEmpty())
+            throw new EntityNotFoundException("No patterns for craft with id: " + craft + " found");
+        else
+            return collect.stream()
+                    .map(this::mapToDto)
+                    .toList();
     }
 
     @Override
@@ -132,6 +163,7 @@ return patterns.stream()
         pattern.setCategory(categoryService.findById(patternDto.getCategoryId()));
         pattern.setLanguage(languageService.findById(patternDto.getLanguageId()));
         pattern.setCurrency(currencyService.findById(patternDto.getCurrencyId()));
+
         Pattern saved = patternRepository.save(pattern);
         return saved.getId();
     }
@@ -169,13 +201,64 @@ return patterns.stream()
     }
 
     @Override
+    public Boolean uploadImage(Long patternId, MultipartFile multipartFile) {
+        Pattern pattern = findById(patternId);
+        String filename = generateFilename(Objects.requireNonNull(multipartFile.getOriginalFilename()));
+        String path = generatePath(filename);
+        pattern.setImagePath(path);
+        try {
+            multipartFile.transferTo(new File(path));
+        } catch (IOException e) {
+            throw new FileUploadingException("File was not saved in storage");
+        }
+        patternRepository.save(pattern);
+        return true;
+    }
+
+    @Override
+    public String generateFilename(String originalFilename) {
+        LocalDateTime dateTimeNow = LocalDateTime.now();
+        String noWhitespaces = originalFilename.replaceAll("\\s","");
+        return "" + dateTimeNow.getYear()
+                + dateTimeNow.getDayOfYear() + dateTimeNow.getHour()
+                + dateTimeNow.getMinute() + dateTimeNow.getSecond()
+                + noWhitespaces;
+    }
+
+    @Override
+    public String generatePath(String generatedFilename) {
+        String path = new File("").getAbsolutePath();
+        path += "\\" + generatedFilename;
+        return path;
+    }
+
+    @Override
+    public byte[] getImage(Long patternId) {
+        Pattern pattern = findById(patternId);
+        byte[] bytes = null;
+        try {
+            bytes = Files.readAllBytes(new File(pattern.getImagePath()).toPath());
+        } catch (IOException e) {
+            throw new FileUploadingException("File can't be read");
+        }
+        return bytes;
+    }
+
+    @Override
+    public Boolean lock(Long id) {
+        Pattern pattern = findById(id);
+        pattern.setLocked(true);
+        patternRepository.save(pattern);
+        return true;
+    }
+
+    @Override
     public PatternDto mapToDto(Pattern pattern) {
         return modelMapper.map(pattern, PatternDto.class);
     }
 
     @Override
     public Pattern mapFromDto(PatternDto patternDto) {
-
         return modelMapper.map(patternDto, Pattern.class);
     }
 }

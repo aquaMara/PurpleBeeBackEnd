@@ -41,6 +41,7 @@ public class Pattern {
     private String imagePath;
     private String pdfPath;
     private String abbreviations;
+    private Boolean locked;
     @ManyToOne
     private Currency currency;
     @ManyToOne
@@ -65,6 +66,7 @@ public class Pattern {
         this.imagePath = "";
         this.pdfPath = "";
         this.abbreviations = "";
+        this.locked = false;
         this.liveRows = new ArrayList<>();
         this.rates = new ArrayList<>();
         this.comments = new ArrayList<>();

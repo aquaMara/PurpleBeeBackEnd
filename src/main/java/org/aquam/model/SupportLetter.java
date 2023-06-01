@@ -22,8 +22,7 @@ public class SupportLetter {
     private Long id;
     private String title;
     private String body;
-    @ManyToOne
-    private AppUser appUser;
+    private String email;
 
     @Override
     public String toString() {
@@ -31,6 +30,7 @@ public class SupportLetter {
                 "id=" + id +
                 ", title='" + title + '\'' +
                 ", body='" + body + '\'' +
+                ", email='" + email + '\'' +
                 '}';
     }
 
@@ -39,11 +39,11 @@ public class SupportLetter {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
         SupportLetter that = (SupportLetter) o;
-        return Objects.equals(title, that.title) && Objects.equals(body, that.body) && Objects.equals(appUser, that.appUser);
+        return Objects.equals(id, that.id) && Objects.equals(title, that.title) && Objects.equals(body, that.body) && Objects.equals(email, that.email);
     }
 
     @Override
     public int hashCode() {
-        return Objects.hash(title, body, appUser);
+        return Objects.hash(id, title, body, email);
     }
 }

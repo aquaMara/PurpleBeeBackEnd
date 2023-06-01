@@ -14,5 +14,8 @@ public interface AppUserService {
     AppUserModel readCurrent(String username);
     Boolean setCountry(String username, Long countryId);
     Boolean setLanguage(String username, Long languageId);
-    Boolean saveLetter(String username, SupportLetterDto supportLetterDto);
+    Boolean saveLetter(SupportLetterDto supportLetterDto);
+    String changeEmail(String email);
+    public Boolean delete();
+    Boolean block(String username);
 }

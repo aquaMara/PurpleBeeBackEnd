@@ -11,4 +11,5 @@ public interface EmailService {
 
     String sendEmail(ConfirmationRequest confirmationRequest);
     String createMessageBody(ConfirmationRequest confirmationRequest) throws TemplateException, IOException;
+    Boolean sendSupportLetter(String email, String body);
 }

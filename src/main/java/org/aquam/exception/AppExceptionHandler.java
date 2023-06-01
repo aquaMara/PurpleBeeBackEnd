@@ -20,7 +20,7 @@ import javax.validation.ConstraintViolationException;
 @RestControllerAdvice
 public class AppExceptionHandler extends ResponseEntityExceptionHandler {
 
-    @ExceptionHandler({ConstraintViolationException.class, RegistrationNotApprovedException.class})
+    @ExceptionHandler({ConstraintViolationException.class, RegistrationNotApprovedException.class, FileUploadingException.class})
     public ResponseEntity<AppResponse> handleBadRequest(RuntimeException exception) {
         AppResponse response = new AppResponse(exception.getMessage(), HttpStatus.BAD_REQUEST);
         return new ResponseEntity<>(response, HttpStatus.BAD_REQUEST); // 400

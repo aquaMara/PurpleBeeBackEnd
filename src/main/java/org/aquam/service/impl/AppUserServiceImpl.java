@@ -15,6 +15,8 @@ import org.aquam.repository.SupportLetterRepository;
 import org.aquam.service.AppUserService;
 import org.aquam.service.CountryService;
 import org.aquam.service.LanguageService;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
@@ -91,12 +93,45 @@ public class AppUserServiceImpl implements AppUserService, UserDetailsService {
     }
 
     @Override
-    public Boolean saveLetter(String username, SupportLetterDto supportLetterDto) {
-        AppUser user = findByUsername(username);
+    public Boolean saveLetter(SupportLetterDto supportLetterDto) {
+        AppUser user = findByUsername(getAuthentication().getName());
         SupportLetter supportLetter = new SupportLetter();
-        supportLetter.setAppUser(user);
+        supportLetter.setEmail(user.getEmail());
+        supportLetter.setTitle(supportLetterDto.getTitle());
         supportLetter.setBody(supportLetterDto.getBody());
         SupportLetter save = supportLetterRepository.save(supportLetter);
+        return true;
+    }
+
+    @Override
+    public String changeEmail(String email) {
+        Authentication authentication = getAuthentication();
+        String username = authentication.getName();
+        AppUser appUser = findByUsername(username);
+        appUser.setEmail(email);
+        AppUser save = userRepository.save(appUser);
+        return appUser.getEmail();
+    }
+
+    public Authentication getAuthentication() {
+        return SecurityContextHolder.getContext().getAuthentication();
+    }
+
+
+    public Boolean delete() {
+        Authentication authentication = getAuthentication();
+        AppUser appUser = findByUsername(authentication.getName());
+        appUser.setEmail(null);
+        appUser.setPassword(null);
+        userRepository.save(appUser);
+        return true;
+    }
+
+    @Override
+    public Boolean block(String username) {
+        AppUser appUser = findByUsername(username);
+        appUser.setLocked(true);
+        userRepository.save(appUser);
         return true;
     }
 }

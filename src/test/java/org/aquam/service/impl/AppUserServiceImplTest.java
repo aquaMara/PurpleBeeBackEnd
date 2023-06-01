@@ -45,7 +45,7 @@ class AppUserServiceImplTest {
         given(userRepository.findByUsername("aquam")).willReturn(Optional.of(createAppUser()));
         given(supportLetterRepository.save(createSupportLetter())).willReturn(saved);
         // when
-        appUserService.saveLetter("aquam", createSupportLetterDto());
+        appUserService.saveLetter(createSupportLetterDto());
         // then
         then(supportLetterRepository).should().save(createSupportLetter());
     }

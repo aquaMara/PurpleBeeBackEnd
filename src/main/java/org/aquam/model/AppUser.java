@@ -37,8 +37,8 @@ public class AppUser implements UserDetails {
     private String email;
     private LocalDateTime registrationDate;
 
-    private Boolean locked;
-    private Boolean enabled;
+    private Boolean locked;     // locked because user deleted it
+    private Boolean enabled;    // enabled when approved by email
 
     @OneToOne
     private AppUserSettings appUserSettings;
@@ -46,8 +46,6 @@ public class AppUser implements UserDetails {
     private Account account;
     @OneToMany(mappedBy = "creator")
     private List<Pattern> createdPatterns;
-    @OneToMany(mappedBy = "appUser")
-    private List<SupportLetter> supportLetters;
     @OneToMany(mappedBy = "appUser")
     private List<Rate> rates;
     @OneToMany(mappedBy = "appUser")

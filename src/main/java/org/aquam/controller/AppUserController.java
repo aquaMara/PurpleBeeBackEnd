@@ -2,7 +2,6 @@ package org.aquam.controller;
 
 import lombok.RequiredArgsConstructor;
 import org.aquam.model.dto.AppUserModel;
-import org.aquam.model.dto.CategoryDto;
 import org.aquam.model.dto.SupportLetterDto;
 import org.aquam.service.AppUserService;
 import org.springframework.http.HttpStatus;
@@ -39,8 +38,23 @@ public class AppUserController {
         return new ResponseEntity<>(appUserService.setLanguage(username, languageId), HttpStatus.CREATED);
     }
 
+    @PutMapping("/email/{email}")
+    public ResponseEntity<String> setEmail(@PathVariable("email")String email) {
+        return new ResponseEntity<>(appUserService.changeEmail(email), HttpStatus.OK);
+    }
+
     @PostMapping("/support/{username}")
-    public ResponseEntity<Boolean> saveLetter(@PathVariable("username") String username, @RequestBody SupportLetterDto supportLetterDto) {
-        return new ResponseEntity<>(appUserService.saveLetter(username, supportLetterDto), HttpStatus.CREATED);
+    public ResponseEntity<Boolean> saveLetter(@PathVariable String username, @RequestBody SupportLetterDto supportLetterDto) {
+        return new ResponseEntity<>(appUserService.saveLetter(supportLetterDto), HttpStatus.CREATED);
+    }
+
+    @PutMapping("/delete")
+    public ResponseEntity<Boolean> delete() {
+        return new ResponseEntity<>(appUserService.delete(), HttpStatus.OK);
+    }
+
+    @PutMapping("/admin/{username}")
+    public ResponseEntity<Boolean> lock(@PathVariable String username) {
+        return new ResponseEntity<>(appUserService.block(username), HttpStatus.OK);
     }
 }

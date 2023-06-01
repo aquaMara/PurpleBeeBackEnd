@@ -35,6 +35,8 @@ public class WebSecurityConfig {
                 .antMatchers(HttpMethod.POST, "/signup/**").permitAll()
                 .antMatchers(HttpMethod.POST, "/signup/check/**").permitAll()
                 .antMatchers(HttpMethod.GET, "/signup/confirm/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/pattern/image/**").permitAll()
+                .antMatchers(HttpMethod.GET, "/purple-bee/health").permitAll()
                 .anyRequest().authenticated()
                 // .and().formLogin().loginPage("/login2")
                 .and().addFilterBefore(tokenValidatorFilter, UsernamePasswordAuthenticationFilter.class)

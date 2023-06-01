@@ -24,6 +24,10 @@ public class Craft {
     @OneToMany(mappedBy = "craft")
     Set<Pattern> patterns;
 
+    public Craft(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Craft{" +

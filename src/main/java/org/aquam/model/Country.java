@@ -17,6 +17,14 @@ public class Country {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private String name;
+
+    public Country() {
+    }
+
+    public Country(String name) {
+        this.name = name;
+    }
+
     @OneToMany(mappedBy = "country")
     private List<AppUserSettings> settings;
 

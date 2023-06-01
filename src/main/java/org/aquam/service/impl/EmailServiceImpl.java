@@ -53,4 +53,20 @@ public class EmailServiceImpl implements EmailService {
         model.put("link", confirmationRequest.getConfirmationLink());
         return FreeMarkerTemplateUtils.processTemplateIntoString(template, model);
     }
+
+    @Override
+    public Boolean sendSupportLetter(String email, String body) {
+        try {
+            MimeMessage mimeMessage = mailSender.createMimeMessage();
+            MimeMessageHelper helper = new MimeMessageHelper(mimeMessage, "utf-8");
+            helper.setText(body, true);
+            helper.setTo(email);
+            helper.setSubject("Answer from support");
+            mailSender.send(mimeMessage);
+        } catch (Exception e) {
+            logger.error("Class: " + e.getClass() + " Message: " + e.getMessage() + " User email: " + email);
+            throw new EmailSendingException("Failed to send email, check email address");
+        }
+        return true;
+    }
 }

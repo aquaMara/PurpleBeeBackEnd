@@ -25,6 +25,10 @@ public class Language {
     @OneToMany(mappedBy = "language")
     List<AppUserSettings> settings;
 
+    public Language(String name) {
+        this.name = name;
+    }
+
     @Override
     public String toString() {
         return "Language{" +

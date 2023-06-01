@@ -2,6 +2,7 @@ package org.aquam.model;
 
 
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -12,6 +13,7 @@ import java.util.Set;
 
 @Entity
 @Data
+@NoArgsConstructor
 public class Currency {
 
     @Id
@@ -21,6 +23,10 @@ public class Currency {
 
     @OneToMany(mappedBy = "currency")
     Set<Pattern> patterns;
+
+    public Currency(String name) {
+        this.name = name;
+    }
 
     @Override
     public String toString() {

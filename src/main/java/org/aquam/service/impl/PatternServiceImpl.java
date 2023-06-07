@@ -132,7 +132,7 @@ public class PatternServiceImpl implements PatternService {
         patternModel.setCreatorUsername(pattern.getCreator().getUsername());
         patternModel.setCraftName(pattern.getCraft().getName());
         patternModel.setCategoryName(pattern.getCategory().getName());
-        patternModel.setLanguageName(pattern.getCategory().getName());
+        patternModel.setLanguageName(pattern.getLanguage().getName());
         patternModel.setCurrencyName(pattern.getCurrency().getName());
         patternModel.setAvgRate(pattern.getNumRate() == 0 ? 0 : pattern.getSumRate() / pattern.getNumRate());
         return patternModel;

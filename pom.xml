@@ -10,7 +10,7 @@
 	</parent>
 	<groupId>org.aquam</groupId>
 	<artifactId>CrochetApp</artifactId>
-	<version>6-1-2023v1-SNAPSHOT</version>
+	<version>6-7-2023v1-SNAPSHOT</version>
 	<name>CrochetApp</name>
 	<description>CrochetApp</description>
 	<properties>
